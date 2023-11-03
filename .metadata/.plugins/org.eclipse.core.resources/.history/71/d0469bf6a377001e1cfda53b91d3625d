@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	번호:{{board.seq}} <br/>
+	제목:{{board.title}} <br/>
+	작성자:{{board.writer}} <br/>
+	작성알:{{board.wdate} <br/>
+	조회수:{{board.hit}} <br/>
+	내용:{{board.contents}} <br/>
+	
+</body>
+</html>

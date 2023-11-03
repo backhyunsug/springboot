@@ -1,0 +1,41 @@
+package com.woori.myapp.service;
+
+import org.springframework.stereotype.Service;
+
+import com.woori.myapp.entity.MemberDto;
+import com.woori.myapp.repository.MemberDao;
+
+import jakarta.annotation.Resource;
+
+@Service("memberService")
+public class MemberSeviceImpl implements MemberService {
+
+	@Resource(name="memberDao")
+	MemberDao dao;
+	
+	@Override
+	public boolean idCheck(MemberDto dto) {
+		return dao.idCheck(dto);
+	}
+
+	@Override
+	public void insert(MemberDto dto) {
+		dao.insert(dto);
+	}
+
+	@Override
+	public int logon_proc(MemberDto dto) {
+		MemberDto resultDto = dao.logon_proc(dto);
+		
+		if( resultDto == null)
+			return 2;//아이디없음
+		
+		if( !resultDto.getPassword().equals(dto.getPassword()))
+			return 3; //패스워드 일치않할때
+		
+		return 1;//로그온성공 
+	}
+
+}
+
+

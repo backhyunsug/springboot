@@ -1,0 +1,15 @@
+package com.woori.myapp.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.woori.myapp.dao.PersonDao;
+
+//@Controller, @RestController, @Service, @Repository 를 찾아서 
+//쓰여있는 클래스만 스스로 객체를 만들어서 주입시켜준다 
+@Service 
+public class PersonServiceImpl implements PersonService{
+	@Autowired    //타입을 보고 적당한 객체를 주입한다 DI
+	PersonDao dao;
+	
+}

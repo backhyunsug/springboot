@@ -1,0 +1,72 @@
+package com.woori.myapp.controller;
+
+import java.util.HashMap;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.woori.myapp.entity.MemberDto;
+import com.woori.myapp.service.MemberService;
+
+import jakarta.annotation.Resource;
+
+@Controller 
+public class MemberController {
+	
+	@Resource(name="memberService")
+	MemberService service;
+	
+	@GetMapping("/member/write")
+	public String member_write() {
+		
+		return "/member/member_register";
+	}
+	
+	/*
+	 * 1.iframe - html5 없어짐 
+	 * 2.popup창 - 안씀, 안드로이드나 아이폰에서 웹사이트 접근시 popup창 문제가 발생
+	 * 3.ajax - o 유일한 방법 
+	 */
+	@GetMapping("/member/idcheck")  //실행결과가 json 이길 원한다 
+	@ResponseBody
+	public HashMap<String, Object> member_idcheck(MemberDto dto)
+	{
+		//디비체크해서 id사용가능여부를 보내야 한다 
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		//dao로 체크해서 
+		if( service.idCheck(dto) )
+		{
+			map.put("result", "success");
+		}
+		else
+		{
+			map.put("result", "fail");
+		}
+		return map;
+	}
+	
+	//ajax로 등록을 함 => String, List, HashMap으로 return, redirect못함  
+	@PostMapping("/member/save")  //실행결과가 json 이길 원한다 
+	@ResponseBody
+	public HashMap<String, Object> member_save(MemberDto dto)
+	{
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		//받아서 데이터 양식에 맞는지 에러체크 
+		//패스워드암호화등의 작업을 해야 한다.
+		service.insert(dto);
+		
+		map.put("result", "success");
+		return map;
+	}
+}
+
+
+
+
+
+
+
+
+

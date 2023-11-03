@@ -1,0 +1,59 @@
+package com.woori.myapp.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.woori.myapp.service.PersonService;
+
+//
+@Controller
+public class PersonController {
+	
+	//DI상황 
+	@Autowired
+	PersonService service;
+	
+
+	@GetMapping("/person/list")
+	public String person_list(Model model)
+	{
+		List<HashMap<String, Object>> sList = 
+				new ArrayList<HashMap<String, Object>>();
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("name", "홍길동");
+		map.put("age", 23);
+	    sList.add(map);
+	    
+	    map = new HashMap<String, Object>();
+		map.put("name", "임꺽정");
+		map.put("age", 27);
+	    sList.add(map);
+	    
+	    model.addAttribute("title", "머스티치 for문 연습");
+	    model.addAttribute("sList", sList);
+	    
+		return "person_list";//함수의 반환값이 반드시 String 이어야 한다 @Controller 일때 
+	}
+	
+	@GetMapping("/person/list2")
+	public String person_list2(Model model)
+	{
+		//서비스를 통해서 데이터를 가져와서  모델에 저장해서 보낸댜.
+		model.addAttribute("personList", service.getList());
+		return "person_list2";
+	}
+}
+
+
+
+
+
+
+

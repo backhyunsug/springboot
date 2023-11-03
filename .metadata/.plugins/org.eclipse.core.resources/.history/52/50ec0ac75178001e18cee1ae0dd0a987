@@ -1,0 +1,144 @@
+{{>layout/header}}
+<body>
+	<form name="myform" id="myform"> 
+	
+{{>layout/nav}}
+
+<input type="text" id="idcheck_yn" name="idcheck_yn" value="N"> 
+
+<div class="container mt-3">
+  <h1>회원가입</h1>
+
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="아이디" name="user_id" id="user_id">
+    <div class="input-group-append">
+      <button class="btn btn-success" type="button" id="btnIdcheck">중복체크</button>  
+    </div>
+  </div>
+
+  <div class="input-group mb-3">
+    <input type="password" class="form-control" name="password" id="password" placeholder="페스워드">
+  </div>
+
+  <div class="input-group mb-3">
+    <input type="password" class="form-control" name="password2" id="password2" placeholder="패스워드확인">
+  </div>
+
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="이름" name="username" id="username">
+  </div>
+
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="닉네임" name="nickname" id="nickname">
+  </div>
+
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="email" name="email" id="email">
+  </div>
+
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="전화번호" name="phone" id="phone">
+  </div>
+
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="우편번호" name="zipcode" id="zipcode">
+    <div class="input-group-append">
+      <button class="btn btn-success" type="button" id="btnPostcode">우편번호검색</button>  
+    </div>
+    
+  </div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="도로주소" name="address1" id="address1">
+  </div>
+
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="상세주소" name="address2" id="address2">
+  </div>    
+  
+
+
+  <!-- 다음 우편 api :주소체계 번지 -> 길  -->
+  
+  	<div class="container" style="text-align:right">
+	 
+	  <div class="btn-group">
+	    
+       <button type="button" class="btn btn-primary" onclick="goWrite()">등록</button>&nbsp;&nbsp;
+      
+	    <button type="button" class="btn btn-primary" onclick="goCancel()">취소</button>&nbsp;&nbsp;
+	  </div>
+	</div>
+</form>	
+</div>
+
+</body>
+</html>
+
+<script>
+//document.ready생략
+$(()=>{
+	$("#btnIdcheck").click( ()=>{
+		let user_id = $("#user_id").val(); //서버로 넘겨서 중복체크를 하겠다. 
+		$.ajax( {
+			url:"/member/idcheck",
+			data:{"user_id":user_id},
+			dataType:"json", 
+			method:"get"
+		})
+		.done( (res)=>{
+			if( res.result=="success")
+			{
+				$("#idcheck_yn").val("Y");
+				//더이상 id입력못하게 막아버린다 
+				$("#user_id").prop("readonly", true); //disabled =>서버로 아예 값이 안간다
+				$("#btnIdcheck").prop("disabled", true); //버튼의 경우 굳이 값을 안보낸다 
+				//attr함수 - jquery 1일때
+			}
+			else
+			{
+				alert("이미 사용중인 아이디입니다.");
+			}
+		})
+		.fail( (res, error, status)=>{})
+	})
+	
+});
+
+
+function goWrite()
+{
+	var frm = document.form;
+	frm.action="/board/save";
+	frm.submit();
+}
+
+function goModify()
+{
+	var frm = document.form;
+	frm.action="/board/modify_save";
+	frm.submit();
+}
+
+
+function goCancel()
+{
+  var frm = document.form;
+	frm.action="/board/list";
+	frm.submit();
+}
+</script>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+        }
+    }).open();
+</script>
+
+
+
+
+

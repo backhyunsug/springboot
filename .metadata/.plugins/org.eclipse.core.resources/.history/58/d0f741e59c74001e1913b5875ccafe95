@@ -1,0 +1,101 @@
+package com.woori.myapp.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.woori.myapp.dto.PersonDto;
+import com.woori.myapp.service.PersonService;
+
+//
+@Controller
+public class PersonController {
+	
+	//DI상황 
+	@Autowired
+	PersonService service;
+	
+
+	@GetMapping("/person/list")
+	public String person_list(Model model)
+	{
+		List<HashMap<String, Object>> sList = 
+				new ArrayList<HashMap<String, Object>>();
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("name", "홍길동");
+		map.put("age", 23);
+	    sList.add(map);
+	    
+	    map = new HashMap<String, Object>();
+		map.put("name", "임꺽정");
+		map.put("age", 27);
+	    sList.add(map);
+	    
+	    model.addAttribute("title", "머스티치 for문 연습");
+	    model.addAttribute("sList", sList);
+	    
+		return "person_list";//함수의 반환값이 반드시 String 이어야 한다 @Controller 일때 
+	}
+	
+	@GetMapping("/person/list2")
+	public String person_list2(Model model)
+	{
+		//서비스를 통해서 데이터를 가져와서  모델에 저장해서 보낸댜.
+		model.addAttribute("personList", service.getList());
+		return "person_list2";
+	}
+	
+	@GetMapping("/person/write")
+	public String person_write()
+	{
+		return "person_write";
+	}
+	
+	@PostMapping("/person/save")
+	public String person_save(PersonDto dto)
+	{
+		service.insert(dto);
+		//redirect => html 페이지에 데이터를 입력 => save에서 저장 
+		//person_list() 직접 호출가능하다. 근데  /person/list url 
+		//redirect:/person/list  => /person/list 
+		//ajax => json 데이터만 보내고 말아야 한다. 받는쪽에서 자바스크립트를 사용해서 전달한다 
+		
+		//forward : 클라이언트에서 온 정보를(request) 그대로 갖고 페이지로 이동 
+		//redirect : 클라이언트에서 온 정보를(request) 그대로 지우고 페이지로 이동 
+		
+		return "redirect:/person/list2";
+	}
+
+	///person/view/1
+	@GetMapping("/person/view/{id}")
+	public String getView(Model model, @PathVariable("id")int id)
+	{
+		model.addAttribute("view", service.getView(id));
+		return "person_view";
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

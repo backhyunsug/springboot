@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form name="myform">
+	이름 : <input type="text" name="name" id="name"><br/>
+	제목 : <input type="text" name="title" id="title"><br/>
+	내용 : <input type="text" name="contents" id="contents"><br/>
+	<button type="button" id="btnSend" >등록</button>	
+</form>
+
+</body>
+</html>

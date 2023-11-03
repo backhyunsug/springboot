@@ -1,0 +1,54 @@
+
+server.port=9000
+spring.mustache.suffix=.html   
+#확장자가 html인 파일을 머시티치로 간주한다 
+#이 설정이 없으면 html파일을 인식못하고 확장자 mustache여야 한다 
+
+#한글설정 
+server.servlet.encoding.force=true
+
+#머스티치 엔진이 세션을 사용할수있도록 설정을 해야 한다 
+spring.mustache.servlet.expose-session-attributes=true
+#oracle 접속 -- 디비 커넥션 풀이 아니다. 
+#spring.datasource.url=jdbc:oracle:thin:@127.0.0.1:1521:XE
+#spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+#spring.datasource.username=user01
+#spring.datasource.password=1234 
+
+#hikari - 디비커넥션풀 (대부분의 프레임워크가 디비커넥션풀을 제공하고있다)
+#hikari를 사용할 경우 별도의 클래스를 만들어서 datasource 를 바꿔치기 해야 한다  
+# SELECT SYSDATE FROM DUAL - select 구문 뒤에 from 생략불가, dual(dummy table)
+# mysql : select now();     oracle : SELECT SYSDATE FROM DUAL
+  
+spring.datasource.hikari.driver-class-name=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+spring.datasource.hikari.jdbc-url=jdbc:log4jdbc:oracle:thin:@localhost:1521:XE
+spring.datasource.hikari.username=user01
+spring.datasource.hikari.password=1234
+spring.datasource.hikari.connection-test-query=SELECT SYSDATE FROM DUAL
+
+
+
+###########  파일관련한 설정부분들 20MB까지만 
+########### POST 방식은 무제한 받을 수 있는데 파일이 업로드가 완료될때까지 
+########### 화면이 멈춰있는 문제, 웹서버 용량이 크지 않은데 너무 큰 파일을 올리면 
+########### 용량부족상태, 50mb  까지 20~30 mb 넘어가면 동영상은 유튜브에 올리면
+########### 유튜브링크만 디비에 올린다  
+ 
+#fileupload  관련 설정
+spring.servlet.multipart.maxFileSize=20MB 
+spring.servlet.maxRequestSize=20MB
+
+
+#주의사항 - 값 뒤에 공백 있으면 에러가 발생한다 
+#파일 업로드를 위해서 업로드 경로 , 도메인을 설정해야 한다 
+#기본베이스 필드는 프로젝트 바로 아래에 폴더를 만들어야 한다 
+#frontend   ===>  backend (이미지)
+#내가 설정 => 접근가능(공통변수 선언) 
+fileUploadPath=fileUpload
+domain=http://127.0.0.1:9090
+
+
+
+
+
+

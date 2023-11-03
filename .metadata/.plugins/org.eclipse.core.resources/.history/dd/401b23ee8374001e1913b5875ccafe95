@@ -1,0 +1,6 @@
+package com.woori.myapp.dao;
+
+//객체 생성을 못한다. => 가급적 클래스간에 연결고리는 인터페이스로 하자 
+public interface BoardDao {
+	List<>
+}

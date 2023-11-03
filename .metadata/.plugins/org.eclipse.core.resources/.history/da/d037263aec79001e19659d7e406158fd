@@ -1,0 +1,5 @@
+package com.woori.myapp.config;
+
+public class WebConfig {
+
+}

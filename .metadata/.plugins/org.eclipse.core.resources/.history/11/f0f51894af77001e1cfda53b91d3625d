@@ -1,0 +1,5 @@
+package com.woori.myapp.common;
+
+public class BaseDto {
+
+}

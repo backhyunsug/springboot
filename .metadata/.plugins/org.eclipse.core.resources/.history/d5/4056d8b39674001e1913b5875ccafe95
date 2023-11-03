@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- form 태그는 페이지 하나에 하나만 있는것이 좋다 .  
+	<form>
+		 .....
+	</form>
+	<form>
+		 .....
+	</form>
+	------------  아래의 경우는 데이터 전송을 못한다.
+	<form >
+		 <form>
+		 </form>
+	</form>
+	-->
+	<form method="post" action="/person/save" >
+		번호 : <input type="text" name="id" /> <br/>
+		이름 : <input type="text" name="name" /> <br/>
+		전화번호 : <input type="text" name="phone" /> <br/>
+		이메일 : <input type="text" name="email" /> <br/>
+		
+		<button>등록</button> <br/>
+		
+	</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
